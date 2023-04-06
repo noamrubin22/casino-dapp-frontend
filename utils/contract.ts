@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 const casinoAddress = "0x8cC8E0dB3053bC2B25589bFaa513CDE43987F8F2";
-const tokenAddress = "0x97A7EE512dEbA445491a4BA8e2d3D60D1B4bd845";
+const tokenAddress = "0x9360097EFF88eB2C15Ac107fcE416219F06b3a0F";
 
 const casinoABI = [
   {
@@ -492,7 +492,7 @@ const tokenABI = [
 const getSigner = (key: string) => {
   const provider = new ethers.providers.AlchemyProvider(
     "maticmum",
-    process.env.ALCHEMY_API_KEY
+    process.env.alchemy
   );
   const wallet = ethers.Wallet.fromMnemonic(key);
   const signer = wallet.connect(provider);
@@ -512,7 +512,7 @@ const getContract = (type: string) => {
 
   if (!abi || !address) return;
 
-  const mnemonic = process.env.MNEMONIC;
+  const mnemonic = process.env.mnemonic;
 
   if (!mnemonic || mnemonic.length <= 0) {
     console.log("no seed phrase");
