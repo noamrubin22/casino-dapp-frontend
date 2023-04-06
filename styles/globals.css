@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Changa:wght@200&family=Nabla&display=swap");
+
+:root {
+  --background-main-color: #010102;
+  --text-main-color: #d31427e7;
+  --text-secondary-color: #abb1a7;
+  --background-brighter-color: #221d40;
+  --text-highlighted-color: #ef4444;
+}
+
+body {
+  height: 100%;
+  background-color: var(--background-main-color);
+  overflow-y: scroll;
+  color: var(--text-main-color);
+  font-family: "Nabla", cursive;
+  -webkit-font-smoothing: antialiased;
+}
+
+.subtitle {
+  color: var(--text-secondary-color);
+  font-family: "Changa", serif;
+}
+
+.main-font {
+  font-family: "Nabla", cursive;
+}
+
+.title {
+  font-family: "Nabla", cursive;
+  margin-top: 1rem;
+  margin-left: 2rem;
+  font-size: 1.5rem;
+}
+
+.welcome-title {
+  font-size: 5.5rem;
+}
+
+.text-mono {
+  font-family: "Source Code Pro", monospace;
+}
+
+.coin-container {
+  height: 70vh;
+  width: 50vw;
+  align-self: normal;
+}
+
+/* button.bg-black-400:focus ~ button.bg-black-400 {
+  background-color: rgba(185, 28, 28, 1);
+} */
