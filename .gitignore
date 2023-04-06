@@ -30,12 +30,8 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.next.config.js
 
-<<<<<<< HEAD
-=======
-.env
-
->>>>>>> cf11a4e1bf3596e781dc3d30c7db8b52e6f78152
 # vercel
 .vercel
 
