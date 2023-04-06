@@ -8,9 +8,7 @@ export const Stake = () => {
         <label
           htmlFor="my-drawer-4"
           className="drawer-button subtitle text-3xl"
-        >
-          Stake
-        </label>
+        ></label>
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" className="drawer-overlay"></label>

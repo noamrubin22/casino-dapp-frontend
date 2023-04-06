@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-const casinoAddress = "0x8cC8E0dB3053bC2B25589bFaa513CDE43987F8F2";
+const casinoAddress = "0x741E765229FF50637313f56De2cBcc9f36CeCea6";
 const tokenAddress = "0x9360097EFF88eB2C15Ac107fcE416219F06b3a0F";
 
 const casinoABI = [
@@ -193,7 +193,6 @@ const casinoABI = [
     type: "function",
   },
 ];
-
 const tokenABI = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
