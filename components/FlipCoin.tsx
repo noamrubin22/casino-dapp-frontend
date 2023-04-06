@@ -49,7 +49,7 @@ export const FlipCoin = () => {
             className="btn btn-outline btn-lg text-4xl glass mx-4"
             onClick={() => flipCoin(true)}
           >
-            Tail
+            Tails
           </button>
         </div>
       </div>
