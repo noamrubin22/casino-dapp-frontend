@@ -42,8 +42,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         coolMode
         modalSize={"compact"}
         theme={darkTheme({
-          accentColor: "black",
-          accentColorForeground: "gray",
+          accentColor: "gray",
+          accentColorForeground: "black",
           fontStack: "system",
         })}
       >

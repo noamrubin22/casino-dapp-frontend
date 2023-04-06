@@ -10,10 +10,6 @@ interface CoinProps {
 const Coin: React.FC<CoinProps> = (props: any) => {
   const { isFlipped, setIsFlipped } = props;
 
-  useEffect(() => {
-    console.log(isFlipped);
-  }, [isFlipped]);
-
   const texture = useLoader(TextureLoader, "/eth-coin-gold.png");
   const myMesh = useRef<THREE.Mesh>();
 

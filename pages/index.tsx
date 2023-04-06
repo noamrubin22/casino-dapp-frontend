@@ -20,8 +20,6 @@ const Home: NextPage = () => {
   const { address } = useAccount();
 
   useEffect(() => {
-    console.log(Boolean(address));
-
     setIsConnected(Boolean(address));
   }, [address]);
 

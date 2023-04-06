@@ -21,7 +21,6 @@ export const BuyTokens: React.FC<BuyTokensProps> = ({
   >();
 
   useEffect(() => {
-    console.log(tokenContract);
     const fetchTokenAmount = async () => {
       if (!tokenContract) return;
 
@@ -32,7 +31,6 @@ export const BuyTokens: React.FC<BuyTokensProps> = ({
             ethers.utils.formatEther(balance._hex)
           );
           setTotalAmountTokens(formattedBalance);
-          console.log(formattedBalance);
         })
         .catch((error: any) => {
           console.log(error);
@@ -49,13 +47,11 @@ export const BuyTokens: React.FC<BuyTokensProps> = ({
 
   const handleChangeTokens = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    console.log(event.target.value);
     setAmountTokens(event.target.value);
   };
 
   const buyTokens = async (value: string) => {
     if (casinoContract) {
-      console.log(casinoContract);
       await casinoContract.purchaseTokens({
         value: ethers.utils.parseEther(value),
       });
@@ -79,11 +75,10 @@ export const BuyTokens: React.FC<BuyTokensProps> = ({
               {totalAmountTokens && (
                 <p className="subtitle text-xl">
                   You have <span className="text-2xl">{totalAmountTokens}</span>
-                  <span className="main-font px-5 text-4xl">
-                    T7E
-                  </span> tokens.{" "}
                 </p>
               )}
+              <span className="main-font px-5 text-4xl">T7E</span>{" "}
+              {totalAmountTokens && <p>tokens.</p>}
               <p className="subtitle my-3 text-lg">Want to buy more?</p>
               <label className="label">
                 <span className="label-text subtitle">Enter amount</span>

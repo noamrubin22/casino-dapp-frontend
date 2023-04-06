@@ -21,14 +21,23 @@ export const FlipCoin = () => {
     setTokenContract(getContract("token"));
   }, []);
 
-  const flipCoin = async (headsOrTail: boolean) => {
-    console.log();
-    // allow transaction & set spending cap
-    console.log(walletAddress);
-    console.log(tokenContract);
+  const flipCoin = async (heads: boolean) => {
     setIsFlipped(true);
-    tokenContract && tokenContract.approve(walletAddress, 1);
-    casinoContract && casinoContract.flipCoin(headsOrTail);
+    console.log(casinoContract?.address);
+    if (tokenContract) {
+      const approveTx = await tokenContract.approve(
+        casinoContract?.address,
+        ethers.utils.parseEther("1")
+      );
+      console.log(approveTx);
+      approveTx.wait();
+    }
+    if (casinoContract) {
+      const flipTx = await casinoContract.flipCoin(heads);
+      console.log(flipTx);
+      const result = flipTx.wait();
+      console.log(result.value?._hex);
+    }
   };
 
   return (
@@ -49,7 +58,7 @@ export const FlipCoin = () => {
             className="btn btn-outline btn-lg text-4xl glass mx-4"
             onClick={() => flipCoin(true)}
           >
-            Tail
+            Tails
           </button>
         </div>
       </div>

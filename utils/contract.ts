@@ -1,8 +1,7 @@
 import { ethers } from "ethers";
-const { JsonRpcProvider } = require("ethers");
 
-const casinoAddress = "0x7fb164fCBA4c1241d4bC3497bDa2c0d9d344eF06";
-const tokenAddress = "0xb7699B0C38f71B0540241a59ddEef0efCcA10A28";
+const casinoAddress = "0x8cC8E0dB3053bC2B25589bFaa513CDE43987F8F2";
+const tokenAddress = "0x97A7EE512dEbA445491a4BA8e2d3D60D1B4bd845";
 
 const casinoABI = [
   {
@@ -493,7 +492,7 @@ const tokenABI = [
 const getSigner = (key: string) => {
   const provider = new ethers.providers.AlchemyProvider(
     "maticmum",
-    process.env.alchemy
+    process.env.ALCHEMY_API_KEY
   );
   const wallet = ethers.Wallet.fromMnemonic(key);
   const signer = wallet.connect(provider);
@@ -513,7 +512,7 @@ const getContract = (type: string) => {
 
   if (!abi || !address) return;
 
-  const mnemonic = process.env.mnemonic;
+  const mnemonic = process.env.MNEMONIC;
 
   if (!mnemonic || mnemonic.length <= 0) {
     console.log("no seed phrase");
