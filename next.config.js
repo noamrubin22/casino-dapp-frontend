@@ -18,4 +18,11 @@ module.exports = {
   },
 };
 
-module.exports = {};
+module.exports = {
+  env: {
+    mnemonic:
+      "green shoot helmet general dirt level athlete together already pipe virtual room",
+
+    alchemy: "Kv9FfF3bTMKeNdw5xM-kqno7qcHj8xCU",
+  },
+};
