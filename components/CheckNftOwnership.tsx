@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
+import getConfig from 'next/config';
+
 
 const CheckNftOwnership = () => {
   const [isHolder, setIsHolder] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const walletAddress = useAccount().address;
+  const { publicRuntimeConfig } = getConfig();
+  const alchemyApiKey = publicRuntimeConfig.NEXT_PUBLIC_ALCHEMY_API_KEY;
 
-  const alchemyApiKey = process.env.REACT_APP_ALCHEMY_API_KEY;
+
 
   const checkNftOwnership = async () => {
     setIsLoading(true);
@@ -30,13 +34,13 @@ const CheckNftOwnership = () => {
 
   return (
     <div>
-      <button onClick={checkNftOwnership}>
+      <button onClick={checkNftOwnership} className="btn btn-primary btn-lg text-2xl mt-2 mb-2">
         {isLoading ? 'Checking ownership...' : 'Check NFT Ownership'}
       </button>
       {isHolder !== undefined && (
         <p>{isHolder ? 'User holds the NFT' : 'User does not hold the NFT'}</p>
       )}
-      <button disabled={!isHolder}>Get Started</button>
+      {/* <button  disabled={!isHolder}>Get Started</button> */}
     </div>
   );
 };
