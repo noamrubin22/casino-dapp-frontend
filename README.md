@@ -20,3 +20,9 @@ The backend of the game is implemented as a smart contract, which can be found i
 ## Getting Started
 
 To play the game, users must first purchase T7E ERC20 tokens using ETH. Once they have the tokens, they can start playing the game and potentially win ETH.
+
+Run the following commands to start the frontend.
+```
+npm install
+npm run dev
+```
