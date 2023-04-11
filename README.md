@@ -24,5 +24,6 @@ To play the game, users must first purchase T7E ERC20 tokens using ETH. Once the
 Run the following commands to start the frontend.
 ```
 npm install
+npm run build
 npm run dev
 ```
