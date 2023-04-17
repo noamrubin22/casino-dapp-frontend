@@ -34,9 +34,9 @@ export const Landing: React.FC<LandingProps> = ({ isConnected }) => {
             </div>
           )}
 
-          <div className="py-4">
+          {/* <div className="py-4">
             <CheckNftOwnership />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

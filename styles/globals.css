@@ -46,9 +46,10 @@ body {
 }
 
 .coin-container {
-  height: 70vh;
-  width: 50vw;
+  height: 60vh;
+  width: 60vw;
   align-self: normal;
+  margin-top: 0;
 }
 
 /* button.bg-black-400:focus ~ button.bg-black-400 {

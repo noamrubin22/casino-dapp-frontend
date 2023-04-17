@@ -21,22 +21,50 @@ export const FlipCoin = () => {
     setTokenContract(getContract("token"));
   }, []);
 
-  const flipCoin = async (heads: boolean) => {
+  useEffect(() => {
+    console.log("IN USEEFFECT", tokenContract);
+  });
+
+  // const flipCoin = async (heads: boolean) => {
+  //   setIsFlipped(true);
+  //   console.log(casinoContract?.address);
+  //   if (tokenContract) {
+  //     const approveTx = await tokenContract.approve(
+  //       casinoContract?.address,
+  //       ethers.utils.parseEther("1")
+  //     );
+  //     console.log(approveTx);
+  //     approveTx.wait();
+  //   }
+  //   if (casinoContract) {
+  //     const flipTx = await casinoContract.flipCoin(heads);
+  //     console.log(flipTx);
+  //     const result = flipTx.wait();
+  //     console.log(result.value?._hex);
+  //   }
+  // };
+
+  const flipCoin = async (coinSide: boolean) => {
     setIsFlipped(true);
-    console.log(casinoContract?.address);
-    if (tokenContract) {
-      const approveTx = await tokenContract.approve(
-        casinoContract?.address,
-        ethers.utils.parseEther("1")
-      );
-      console.log(approveTx);
-      approveTx.wait();
+
+    const response = await fetch("/api/contracts", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const contracts = await response.json();
+
+    if (contracts) {
+      const res = await fetch("/api/contracts/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contracts }),
+      });
+      return res;
     }
-    if (casinoContract) {
-      const flipTx = await casinoContract.flipCoin(heads);
-      console.log(flipTx);
-      const result = flipTx.wait();
-      console.log(result.value?._hex);
+
+    if (res?.status === 200) {
+      console.log("successful coin-flip");
     }
   };
 
