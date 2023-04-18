@@ -1,18 +1,29 @@
 import { BigNumber, ethers } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import { useAccount } from "wagmi";
 import { getContract } from "../utils/contract";
+import { fetchContracts } from "./FlipCoin";
 
-interface BuyTokensProps {
-  casinoContract: ethers.Contract | undefined;
-  tokenContract: ethers.Contract | undefined;
-}
+// interface BuyTokensProps {
+//   casinoContract: ethers.Contract | undefined;
+//   tokenContract: ethers.Contract | undefined;
+// }
 
-export const BuyTokens: React.FC<BuyTokensProps> = ({
-  casinoContract,
-  tokenContract,
-}) => {
+export const BuyTokens: React.FC = ({}) => {
   const walletAddress = useAccount().address;
+  const { data, status } = useQuery(
+    ["fetchContracts"],
+    () => fetchContracts(),
+    { cacheTime: 0 }
+  );
+
+  const [casinoContract, setCasinoContract] = useState<
+    ethers.Contract | undefined
+  >(getContract("casino"));
+  const [tokenContract, setTokenContract] = useState<
+    ethers.Contract | undefined
+  >(getContract("token"));
 
   const [ethValue, setETHValue] = useState<string>("0.01");
   const [amountTokens, setAmountTokens] = useState<string>("1");
@@ -20,25 +31,23 @@ export const BuyTokens: React.FC<BuyTokensProps> = ({
     number | undefined
   >();
 
-  useEffect(() => {
-    const fetchTokenAmount = async () => {
-      if (!tokenContract) return;
+  const fetchTokenAmount = async () => {
+    if (!tokenContract) return;
 
-      tokenContract
-        .balanceOf(walletAddress)
-        .then((balance: { _hex: ethers.BigNumberish }) => {
-          const formattedBalance = parseFloat(
-            ethers.utils.formatEther(balance._hex)
-          );
-          setTotalAmountTokens(formattedBalance);
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
-    };
-
-    fetchTokenAmount();
-  }, []);
+    tokenContract
+      .balanceOf(walletAddress)
+      .then((balance: { _hex: ethers.BigNumberish }) => {
+        console.log("in tokenContract BalanceOf");
+        const formattedBalance = parseFloat(
+          ethers.utils.formatEther(balance._hex)
+        );
+        console.log("FormattedBalance: ", formattedBalance);
+        setTotalAmountTokens(formattedBalance);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
 
   const handleChangeETH = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -51,10 +60,12 @@ export const BuyTokens: React.FC<BuyTokensProps> = ({
   };
 
   const buyTokens = async (value: string) => {
+    fetchTokenAmount();
     if (casinoContract) {
-      await casinoContract.purchaseTokens({
+      const buyTokensTx = await casinoContract.purchaseTokens({
         value: ethers.utils.parseEther(value),
       });
+      console.log("BUYTOKENStx: ", buyTokensTx);
     }
   };
 
@@ -64,6 +75,7 @@ export const BuyTokens: React.FC<BuyTokensProps> = ({
         value: BigNumber.from(value),
       });
     }
+    fetchTokenAmount();
   };
 
   return (

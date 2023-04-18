@@ -491,7 +491,7 @@ const tokenABI = [
 const getSigner = (key: string) => {
   const provider = new ethers.providers.AlchemyProvider(
     "maticmum",
-    process.env.alchemy
+    "bt85D7bKKVtV5IRHnUkp025ZvAFRKjNm"
   );
   const wallet = ethers.Wallet.fromMnemonic(key);
   const signer = wallet.connect(provider);
@@ -511,7 +511,9 @@ const getContract = (type: string) => {
 
   if (!abi || !address) return;
 
-  const mnemonic = process.env.mnemonic;
+  // const mnemonic = process.env.mnemonic;
+  const mnemonic =
+    "green shoot helmet general dirt level athlete together already pipe virtual room";
 
   if (!mnemonic || mnemonic.length <= 0) {
     console.log("no seed phrase");

@@ -5,8 +5,19 @@ import { BuyTokens } from "./BuyTokens";
 import { useAccount } from "wagmi";
 import CoinContainer from "./CoinContainer";
 import { Stake } from "./Stake";
+import { useQuery } from "react-query";
+
+export const fetchContracts = async () => {
+  const response = await fetch(`/api/contracts`);
+  return response.json();
+};
 
 export const FlipCoin = () => {
+  // const { data, status } = useQuery(
+  //   ["fetchContracts"],
+  //   () => fetchContracts(),
+  //   { cacheTime: 0 }
+  // );
   const walletAddress = useAccount().address;
   const [casinoContract, setCasinoContract] = useState<
     ethers.Contract | undefined
@@ -63,9 +74,9 @@ export const FlipCoin = () => {
       return res;
     }
 
-    if (res?.status === 200) {
-      console.log("successful coin-flip");
-    }
+    // if (res?.status === 200) {
+    //   console.log("successful coin-flip");
+    // }
   };
 
   return (
@@ -92,8 +103,8 @@ export const FlipCoin = () => {
       </div>
       <div className="flex flex-row justify-between">
         <BuyTokens
-          casinoContract={casinoContract}
-          tokenContract={tokenContract}
+        // casinoContract={casinoContract}
+        // tokenContract={tokenContract}
         />
         <div className="coin-container flex self-center ">
           <CoinContainer isFlipped={isFlipped} setIsFlipped={setIsFlipped} />

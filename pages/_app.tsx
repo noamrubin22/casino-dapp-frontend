@@ -9,6 +9,7 @@ import type { AppProps } from "next/app";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { sepolia, goerli, mainnet, polygon, polygonMumbai } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -33,23 +34,28 @@ const wagmiClient = createClient({
   provider,
   webSocketProvider,
 });
+
+const queryClient = new QueryClient();
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider
-        chains={chains}
-        initialChain={polygonMumbai}
-        coolMode
-        modalSize={"compact"}
-        theme={darkTheme({
-          accentColor: "gray",
-          accentColorForeground: "black",
-          fontStack: "system",
-        })}
-      >
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <QueryClientProvider client={queryClient}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider
+          chains={chains}
+          initialChain={polygonMumbai}
+          coolMode
+          modalSize={"compact"}
+          theme={darkTheme({
+            accentColor: "gray",
+            accentColorForeground: "black",
+            fontStack: "system",
+          })}
+        >
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </QueryClientProvider>
   );
 }
 

@@ -532,15 +532,21 @@ export default async function handler(
     const { casinoContract, tokenContract } = contracts;
 
     try {
-      // if (tokenContract) {
-      //   console.log("TOKENCONTRACT", tokenContract);
-      //   const approveTx = await tokenContract.approve(
-      //     casinoContract.address,
-      //     ethers.utils.parseEther("1")
-      //   );
-      //   console.log("approvedTX", approveTx);
-      //   approveTx.wait();
-      // }
+      if (tokenContract) {
+        console.log("TOKENCONTRACT", tokenContract);
+
+        await tokenContract.interface.functions.approve(
+          casinoContract.address,
+          ethers.utils.parseEther("1")
+        );
+
+        // const approveTx = await tokenContract.approve(
+        //   casinoContract.address,
+        //   ethers.utils.parseEther("1")
+        // );
+        // console.log("approvedTX", approveTx);
+        // approveTx.wait();
+      }
 
       // const flipTx = await casinoContract.flipCoin(coinSide);
 
