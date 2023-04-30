@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
-import { BuyTokens } from "./BuyTokens";
+import { Tokens } from "./tokens/Tokens";
 import { useAccount } from "wagmi";
 import CoinContainer from "./coinflip/CoinContainer";
 import { Stake } from "./Stake";
@@ -14,7 +14,7 @@ export const Casino = () => {
     <div className="hero min-h-full bg-base-100 flex flex-col">
       <FlipCoin isFlipped={isFlipped} setIsFlipped={setIsFlipped} />
       <div className="flex flex-row justify-between">
-        <BuyTokens />
+        <Tokens />
         <div className="coin-container flex self-center ">
           <CoinContainer isFlipped={isFlipped} setIsFlipped={setIsFlipped} />
         </div>
