@@ -4,11 +4,11 @@ import React from "react";
 
 import CheckNftOwnership from "./CheckNftOwnership"; // Import the CheckNftOwnership component
 
-interface LandingProps {
+interface LoginProps {
   isConnected: boolean;
 }
 
-export const Landing: React.FC<LandingProps> = ({ isConnected }) => {
+export const Login: React.FC<LoginProps> = ({ isConnected }) => {
   return (
     <div className="hero min-h-screen bg-base-100">
       <div className="hero-content text-center">

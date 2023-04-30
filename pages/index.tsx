@@ -2,15 +2,14 @@ import type { NextPage } from "next";
 
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { Header } from "../components/Header";
-import { Landing } from "../components/Landing";
-import { Footer } from "../components/Footer";
-import { FlipCoin } from "../components/FlipCoin";
+import { Header } from "../components/layout/Header";
+import { Login } from "../components/casino/Login";
+import { Footer } from "../components/layout/Footer";
+import { Casino } from "../components/casino/Casino";
 import { useAccount } from "wagmi";
 
 const Home: NextPage = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
-
   const { address } = useAccount();
 
   useEffect(() => {
@@ -39,7 +38,7 @@ const Home: NextPage = () => {
       <Header isConnected={isConnected} />
 
       <div className="min-h-screen">
-        {isConnected ? <FlipCoin /> : <Landing isConnected={isConnected} />}
+        {isConnected ? <Casino /> : <Login isConnected={isConnected} />}
       </div>
 
       <Footer />

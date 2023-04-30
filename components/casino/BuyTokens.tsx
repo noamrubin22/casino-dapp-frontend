@@ -1,9 +1,8 @@
 import { BigNumber, ethers } from "ethers";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useAccount } from "wagmi";
-import { getContract } from "../utils/contract";
-import { fetchContracts } from "./FlipCoin";
+import { getTokenAmount } from "../../utils/contract.utils";
 
 // interface BuyTokensProps {
 //   casinoContract: ethers.Contract | undefined;
@@ -13,17 +12,12 @@ import { fetchContracts } from "./FlipCoin";
 export const BuyTokens: React.FC = ({}) => {
   const walletAddress = useAccount().address;
   const { data, status } = useQuery(
-    ["fetchContracts"],
-    () => fetchContracts(),
-    { cacheTime: 0 }
+    ["getTokenAmount"],
+    () => getTokenAmount(walletAddress),
+    {
+      cacheTime: 0,
+    }
   );
-
-  const [casinoContract, setCasinoContract] = useState<
-    ethers.Contract | undefined
-  >(getContract("casino"));
-  const [tokenContract, setTokenContract] = useState<
-    ethers.Contract | undefined
-  >(getContract("token"));
 
   const [ethValue, setETHValue] = useState<string>("0.01");
   const [amountTokens, setAmountTokens] = useState<string>("1");
@@ -31,52 +25,34 @@ export const BuyTokens: React.FC = ({}) => {
     number | undefined
   >();
 
-  const fetchTokenAmount = async () => {
-    if (!tokenContract) return;
+  // const handleChangeETH = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   event.preventDefault();
+  //   setETHValue(event.target.value);
+  // };
 
-    tokenContract
-      .balanceOf(walletAddress)
-      .then((balance: { _hex: ethers.BigNumberish }) => {
-        console.log("in tokenContract BalanceOf");
-        const formattedBalance = parseFloat(
-          ethers.utils.formatEther(balance._hex)
-        );
-        console.log("FormattedBalance: ", formattedBalance);
-        setTotalAmountTokens(formattedBalance);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  };
+  // const handleChangeTokens = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   event.preventDefault();
+  //   setAmountTokens(event.target.value);
+  // };
 
-  const handleChangeETH = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setETHValue(event.target.value);
-  };
+  // const buyTokens = async (value: string) => {
+  //   fetchTokenAmount();
+  //   if (casinoContract) {
+  //     const buyTokensTx = await casinoContract.purchaseTokens({
+  //       value: ethers.utils.parseEther(value),
+  //     });
+  //     console.log("BUYTOKENStx: ", buyTokensTx);
+  //   }
+  // };
 
-  const handleChangeTokens = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setAmountTokens(event.target.value);
-  };
-
-  const buyTokens = async (value: string) => {
-    fetchTokenAmount();
-    if (casinoContract) {
-      const buyTokensTx = await casinoContract.purchaseTokens({
-        value: ethers.utils.parseEther(value),
-      });
-      console.log("BUYTOKENStx: ", buyTokensTx);
-    }
-  };
-
-  const returnTokens = async (value: string) => {
-    if (casinoContract) {
-      await casinoContract.returnTokens({
-        value: BigNumber.from(value),
-      });
-    }
-    fetchTokenAmount();
-  };
+  // const returnTokens = async (value: string) => {
+  //   if (casinoContract) {
+  //     await casinoContract.returnTokens({
+  //       value: BigNumber.from(value),
+  //     });
+  //   }
+  //   fetchTokenAmount();
+  // };
 
   return (
     <div>
@@ -101,16 +77,16 @@ export const BuyTokens: React.FC = ({}) => {
                   placeholder="0.01"
                   className="input input-bordered subtitle"
                   value={ethValue}
-                  onChange={handleChangeETH}
+                  // onChange={handleChangeETH}
                 />
                 <span>ETH</span>
               </label>
-              <button
+              {/* <button
                 className="btn btn-sm my-4 subtitle glass"
                 onClick={() => buyTokens(ethValue)}
               >
                 buy tokens
-              </button>
+              </button> */}
             </div>
             <div className="form-control my-5">
               <p className="subtitle  text-lg">Or prefer to sell?</p>
@@ -123,16 +99,16 @@ export const BuyTokens: React.FC = ({}) => {
                   placeholder="1"
                   className="input input-bordered subtitle"
                   value={amountTokens}
-                  onChange={handleChangeTokens}
+                  // onChange={handleChangeTokens}
                 />
                 <span>Tokens</span>
               </label>
-              <button
+              {/* <button
                 className="btn btn-sm my-4 subtitle glass"
                 onClick={() => returnTokens(amountTokens)}
               >
                 sell tokens
-              </button>
+              </button> */}
             </div>
           </>
         </div>
