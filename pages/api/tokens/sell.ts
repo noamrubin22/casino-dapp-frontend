@@ -8,7 +8,6 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { value } = req.body;
-
     if (
       !process.env.CASINO_CONTRACT_ADDRESS ||
       !process.env.MNEMONIC ||
@@ -35,14 +34,11 @@ export default async function handler(
         casinoABI,
         signer
       );
-      await casinoContract
-        .purchaseTokens({ value: ethers.utils.parseEther(value) })
-        .then((res: any) => {
-          return res.status(200).json(res);
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
+
+      const returnTokensTx = await casinoContract.returnTokens({
+        value: value.toString(),
+      });
+      return res.status(200).json(returnTokensTx);
     } catch (error) {
       console.error(error);
       return res.status(500).json(error);

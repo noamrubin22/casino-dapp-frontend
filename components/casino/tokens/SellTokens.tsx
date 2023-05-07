@@ -9,13 +9,24 @@ export const SellTokens = () => {
   };
 
   const returnTokens = async (value: string) => {
-    // if (casinoContract) {
-    //   await casinoContract.returnTokens({
-    //     value: BigNumber.from(value),
-    //   });
-    // }
-    // fetchTokenAmount();
-    console.log("return tokens", value);
+    try {
+      const response = await fetch(`/api/tokens/sell`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value }),
+      });
+      const data = await response.json();
+      console.log("data: ", data);
+      console.log("return tokens: ", value);
+
+      if (!response.ok) {
+        throw new Error(data.message || response.statusText);
+      }
+      return data;
+    } catch (error) {
+      console.error(error);
+      return { error: "Something went wrong. Please try again later." };
+    }
   };
 
   return (
