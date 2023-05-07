@@ -1,30 +1,65 @@
-// const { contracts, coinSide } = req.body;
-// const { casinoContract, tokenContract } = contracts;
+import { ethers } from "ethers";
+import { Interface } from "ethers/lib/utils.js";
+import { NextApiRequest, NextApiResponse } from "next";
 
-// try {
-//   if (tokenContract) {
-//     console.log("TOKENCONTRACT", tokenContract);
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === "GET") {
+    if (
+      !process.env.TOKEN_CONTRACT_ADDRESS ||
+      !process.env.MNEMONIC ||
+      !process.env.ALCHEMY_API_KEY ||
+      !process.env.CASINO_CONTRACT_ADDRESS
+    ) {
+      return res.status(500).json("No env keys.");
+    }
 
-//     await tokenContract.interface.functions.approve(
-//       casinoContract.address,
-//       ethers.utils.parseEther("1")
-//     );
+    const { spenderAddress, coinSide } = req.query;
 
-//     // const approveTx = await tokenContract.approve(
-//     //   casinoContract.address,
-//     //   ethers.utils.parseEther("1")
-//     // );
-//     // console.log("approvedTX", approveTx);
-//     // approveTx.wait();
-//   }
+    const tokenABI = require("../../../data/token-abi.json");
+    const tokenAddress = process.env.TOKEN_CONTRACT_ADDRESS;
+    const casinoABI = require("../../../data/casino-abi.json");
+    const casinoAddress = process.env.CASINO_CONTRACT_ADDRESS;
 
-//   // const flipTx = await casinoContract.flipCoin(coinSide);
+    console.log("SPENDERADDRESS", spenderAddress);
+    try {
+      const provider = new ethers.providers.AlchemyProvider(
+        "maticmum",
+        process.env.ALCHEMY_API_KEY
+      );
 
-//   return res.status(200).json(true);
-// } catch (error) {
-//   console.error(error);
-//   return res.status(500).json(error);
-// }
-// } else {
-// return res.status(400).json(req.method);
-// }
+      // the signer needs to be the contract owner
+      const wallet = ethers.Wallet.fromMnemonic(process.env.MNEMONIC);
+      const signer = wallet.connect(provider);
+
+      const tokenContract = new ethers.Contract(tokenAddress, tokenABI, signer);
+      const casinoContract = new ethers.Contract(
+        casinoAddress,
+        casinoABI,
+        signer
+      );
+
+      const tx = await tokenContract.approve(
+        spenderAddress,
+        ethers.utils.parseEther("1")
+      );
+      await tx.wait();
+
+      await casinoContract.allowance();
+
+      const flipTx = await casinoContract.flipCoin(coinSide);
+      console.log(flipTx);
+
+      // const flipTx = await casinoContract.flipCoin(coinSide);
+
+      return res.status(200).json(flipTx);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json(error);
+    }
+  } else {
+    return res.status(400).json(req.method);
+  }
+}

@@ -46,13 +46,6 @@ export default async function handler(
       return res.status(500).json(error);
     }
   } else if (req.method === "POST") {
-    // get amount of tokens that the user wants to sell
-    // return tokens
     return res.status(400).json(req.method);
   }
 }
-
-// tokens
-// getTokenAmount
-// buyTokens
-// sellTokens
