@@ -35,18 +35,14 @@ export default async function handler(
         casinoABI,
         signer
       );
-      console.log("VALUE", value);
       await casinoContract
         .purchaseTokens({ value: ethers.utils.parseEther(value) })
-        .then((el: any) => {
-          console.log(el);
-          return res.status(200).json(el);
+        .then((res: any) => {
+          return res.status(200).json(res);
         })
         .catch((error: any) => {
           console.log(error);
         });
-
-      return res.status(200).json(true);
     } catch (error) {
       console.error(error);
       return res.status(500).json(error);
